@@ -2,20 +2,26 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
-// var axios = require("axios");
-var cheerio = require("cheerio");
+var exphbs  = require('express-handlebars');
 
 // Require all models
 var db = require("./models");
 
 var PORT = process.env.PORT || 8080;
 
+
+// Our scraping tools
+// Axios is a promised-based http library, similar to jQuery's Ajax method
+// It works on the client and on the server
+// var axios = require("axios");
+// var cheerio = require("cheerio");
+
 // Initialize Express
 var app = express();
+
+// Set up handlebars engine
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // Configure middleware
 
@@ -33,18 +39,27 @@ mongoose.connect("mongodb://localhost/news-scraperDB", {
   useMongoClient: true
 });
 
-// Routes
-
+// ------------------------------------------------------------------------------------------------------
 // Note routes
-app.get("api/notes", function(req, res) {
-  db.Notes.find().then(function(data){
-      res.json(data);
+
+// Reference home page
+app.get("/", function(req, res) {
+  db.Note.find().then(function(data){
+        res.render("articles", {note: data});
   }).catch(function(err){
-      res.json(err);
+        res.json(err);
   });
 });
+// Find note by id
+app.get("api/notes/:id", function(req, res) {
+    db.Note.findById(req.params.id).then(function(data){
+        res.json(data);
+    }).catch(function(err){
+        res.json(err);
+    });
+  });
 app.post("api/notes",function(req, res){
-    db.Notes.create(req.body).then(function(data){
+    db.Note.create(req.body).then(function(data){
         res.json(data);
     }).catch(function(err){
         res.json(err);
