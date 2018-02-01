@@ -10,7 +10,7 @@ var mongoose = require("mongoose");
 var cheerio = require("cheerio");
 
 // Require all models
-// var db = require("./models");
+var db = require("./models");
 
 var PORT = process.env.PORT || 8080;
 
