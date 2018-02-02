@@ -1,0 +1,7 @@
+
+
+{{!-- button to delete an article from saved page --}}
+<form action="/api/article/delete" method="POST" >
+    <input type="hidden" name="id" value="{{this._id}}" >
+    <button type="submit">Delete</button>
+</form>

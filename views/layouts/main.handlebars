@@ -8,13 +8,40 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+   
     <title>Document</title>
 </head>
 
 <body>
     <div class="container">
-        {{{body}}}
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">News Scraper</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/saved">Saved Articles</a>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-primary" id="scrape">Scrape Articles</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            {{{body}}}
+        </div>
     </div>
+    
+     {{!-- Link to individual js file --}}
+    <script src="../../public/js/main.js"></script>
 </body>
 
 </html>
