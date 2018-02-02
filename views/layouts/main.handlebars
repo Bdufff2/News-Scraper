@@ -9,8 +9,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <title>News Scraper</title>
 
-    <title>NYT</title>
 </head>
 
 <body>
@@ -45,16 +45,15 @@
             // Scrape button get req on main.handlebars
             $("#scrape-articles").on("click", function () {
                 $.ajax({
-                    type: "GET",
+                    method: "GET",
                     url: '/api/scrape'
                     
                 }).done(function (data) {
                     if (err) throw err;
-                    console.log(data);
-                    location.reload();
                 });
+                
             });
-
+                
         });
     </script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>

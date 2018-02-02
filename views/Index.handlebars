@@ -16,7 +16,7 @@
                     <p> {{this.summary}}</p>
                     <a href={{this.link}} target="_blank">{{this.link}}</a>
                     <br/>
-                    <form action="/api/articles/save/:id" method="POST">
+                    <form class="save" action="/api/articles/save/:id" method="POST">
                         <input type="hidden" name="id" value="{{this._id}}" />
                         <button type="submit" class="btn btn-success save" data-id={{this._id}}>Save Article</button>
                     </form>

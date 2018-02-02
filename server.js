@@ -60,7 +60,7 @@ app.get("/", function (req, res) {
 
 // View saved articles
 app.get("/saved-articles", function (req, res) {
-    db.Article.find({ "saved": true }).populate("notes").then(function (error, data) {
+    db.Article.find({ "saved": true }).populate("articles").then(function (error, data) {
         var hbsObject = {
             articles: data
         };
@@ -94,12 +94,13 @@ app.get("/api/scrape", function (req, res) {
                 .then(function (dbArticle) {
                     // View the added result in the console
                     console.log(dbArticle);
+                    res.redirect("/");
                 }).catch(function (err) {
                     // If an error occurred, send it to the client
                     return res.json(err);
                 });
         });
-
+        
         console.log(result);
     });
 });
@@ -140,9 +141,12 @@ app.get("/articles/:id", function (req, res) {
 
 // Post request to save articles 
 app.post("/api/articles/save/:id", function (req, res) {
-    db.Article.findOneAndUpdate({ "_id": req.params.id }, { "saved": true })
-        .then(function (data) {
-            res.json(data);
+    db.Article.findByIdAndUpdate(req.body.id, { 
+        $set: {
+           "saved": true  
+        }
+        }).then(function (data) {
+            res.redirect("/");
         }).catch(function (err) {
             res.json(err);
             console.log(err);
