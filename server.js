@@ -45,20 +45,26 @@ mongoose.connect("mongodb://localhost/news-scraperDB", {
 
 // Reference home page
 app.get("/", function (req, res) {
-    db.Note.find().then(function (data) {
-        res.render("index", { note: data });
+    db.Article.find().then(function (data) {
+        console.log("---------------------------------------------------------------");
+        console.log("this is the data: ", data);
+        console.log("---------------------------------------------------------------");
+        var hbsObject = {
+            articles: data
+        };
+        res.render("index", hbsObject);
     }).catch(function (err) {
         res.json(err);
     });
 });
 
 // View saved articles
-app.get("/saved", function (req, res) {
-    Article.find({ "saved": true }).populate("notes").exec(function (error, articles) {
+app.get("/saved-articles", function (req, res) {
+    db.Article.find({ "saved": true }).populate("notes").then(function (error, data) {
         var hbsObject = {
-            article: articles
+            articles: data
         };
-        res.render("saved", hbsObject);
+        res.render("saved-articles", hbsObject);
     });
 });
 
@@ -70,12 +76,11 @@ app.get("/api/scrape", function (req, res) {
         var $ = cheerio.load(response.data);
         console.log(response.data);
         var result = {};
-        // Now, we grab every h2 within an article tag, and do the following:
+
         $("article").each(function (i, element) {
             // Add the text and href of every link, and save them as properties of the result object
             result.title = $(this)
-                .children(".story-heading")
-                .children("a")
+                .children("h2")
                 .text();
             result.summary = $(this)
                 .children(".summary")
@@ -96,8 +101,6 @@ app.get("/api/scrape", function (req, res) {
         });
 
         console.log(result);
-        // If we were able to successfully scrape and save an Article, send a message to the client
-        res.send("Scrape Complete");
     });
 });
 

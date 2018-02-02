@@ -1,7 +1,36 @@
 <div class="container">
+    <div class="col-md-12 jumbotron">
+        <div class="text-center">
+            <h1>New York Times News Scraper</h1>
+        </div>
+    </div>
 
+    <div class="col-md-12">      
+        {{#if articles}}
+            {{#each articles}}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4>{{this.title}}</h4>
+                </div>
+                <div class="panel-body">
+                    <p> {{this.summary}}</p>
+                    <a href={{this.link}} target="_blank">{{this.link}}</a>
+                    <br/>
+                    <form action="/api/articles/save/:id" method="POST">
+                        <input type="hidden" name="id" value="{{this._id}}" />
+                        <button type="submit" class="btn btn-success save" data-id={{this._id}}>Save Article</button>
+                    </form>
+                    
+                </div>
+            </div>
+            {{/each}}
+        {{else}}
+        <div class="panel panel-default">
+            <div class="panel-body">
+            <h4>No articles available. </h4>
+            </div>
+        </div>
+        {{/if}}
+    </div>
 
-
-
-    
 </div>
